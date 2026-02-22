@@ -1,123 +1,95 @@
-import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import React from 'react'
+import { motion } from 'framer-motion'
 import { projects } from '../data/projects'
+import AnimatedSection from './AnimatedSection'
 
-const colorMap = {
-    Flutter: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    Firebase: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-    Python: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-    Figma: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-    Git: 'bg-gray-500/10 text-gray-400 border-gray-500/20',
-    React: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
-    JavaScript: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/20',
-    CSS: 'bg-blue-400/10 text-blue-300 border-blue-400/20',
-    Vite: 'bg-purple-400/10 text-purple-300 border-purple-400/20',
+const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function Projects() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: '-100px' })
-
     return (
-        <section id="projects" ref={ref} className="section-padding">
-            <div className="max-w-6xl mx-auto px-6">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5 }}
-                    className="flex items-center gap-3 mb-12"
-                >
-                    <span className="text-xs font-mono text-[#A1A1A1] tracking-widest uppercase">03 —</span>
-                    <h2 className="text-3xl md:text-4xl font-poppins font-bold text-white">Innovations</h2>
-                </motion.div>
+        <AnimatedSection id="projects" className="py-24 md:py-32">
+            <div className="max-w-4xl mx-auto px-6">
+                {/* Section Header */}
+                <div className="flex items-end gap-6 mb-16 border-b border-divider pb-6">
+                    <span className="text-sm font-mono text-text-secondary tracking-widest uppercase">03 /</span>
+                    <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-text-primary tracking-tight">Training Log</h2>
+                </div>
 
-                {/* Cards */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    {projects.map((project, i) => (
+                {/* Training Log List */}
+                <motion.div 
+                    className="flex flex-col gap-10"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+                    }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-10%" }}
+                >
+                    {projects.map((project) => (
                         <motion.article
                             key={project.id}
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: i * 0.15, ease: 'easeOut' }}
-                            whileHover={{ scale: 1.02, y: -4 }}
-                            className="glass rounded-2xl overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-300 group cursor-pointer"
-                            style={{
-                                background: 'rgba(18,18,18,0.7)',
-                            }}
+                            variants={itemVariants}
+                            className="group relative flex flex-col md:flex-row gap-6 md:gap-12 p-6 md:p-8 border border-divider bg-card/10 hover:bg-card/30 transition-colors duration-500 rounded-sm"
                         >
-                            {/* Project preview */}
-                            <div className="relative h-48 flex items-center justify-center overflow-hidden"
-                                style={{
-                                    background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(139,92,246,0.08) 100%)',
-                                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                                }}
-                            >
-                                <motion.span
-                                    className="text-7xl select-none"
-                                    whileHover={{ scale: 1.2, rotate: [0, -5, 5, 0] }}
-                                    transition={{ duration: 0.4 }}
-                                >
-                                    {project.emoji}
-                                </motion.span>
-                                {/* Hover glow */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-500" />
-                            </div>
-
-                            {/* Info */}
-                            <div className="p-6 space-y-4">
-                                <h3 className="text-xl font-poppins font-bold text-white group-hover:gradient-text transition-all">
-                                    {project.title}
-                                </h3>
-                                <p className="text-[#A1A1A1] text-sm leading-relaxed line-clamp-3">
-                                    {project.description}
-                                </p>
-
-                                {/* Tech tags */}
+                            {/* Project Header (Left side on desktop) */}
+                            <div className="md:w-1/3 flex flex-col gap-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl grayscale opacity-70 group-hover:opacity-100 transition-opacity duration-300">{project.emoji}</span>
+                                    <h3 className="text-xl md:text-2xl font-heading font-bold text-text-primary tracking-tight">
+                                        {project.title}
+                                    </h3>
+                                </div>
+                                {/* Tech Stack Tags */}
                                 <div className="flex flex-wrap gap-2">
                                     {project.tech.map((tag) => (
                                         <span
                                             key={tag}
-                                            className={`text-[11px] px-2.5 py-1 rounded-full border font-mono ${colorMap[tag] ?? 'bg-white/5 text-white/60 border-white/10'
-                                                }`}
+                                            className="text-[10px] md:text-xs px-2 py-1 bg-divider/30 text-text-secondary font-mono border border-divider rounded-sm uppercase tracking-wider"
                                         >
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
+                            </div>
 
-                                {/* Links */}
-                                <div className="flex items-center gap-3 pt-2">
+                            {/* Project Details (Right side on desktop) */}
+                            <div className="md:w-2/3 flex flex-col gap-6 justify-between border-t md:border-t-0 md:border-l border-divider pt-6 md:pt-0 md:pl-8">
+                                <p className="text-text-secondary text-sm md:text-base leading-relaxed font-sans">
+                                    {project.description}
+                                </p>
+                                
+                                {/* Action Links */}
+                                <div className="flex items-center gap-6 pt-2">
                                     <a
                                         href={project.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        id={`project-github-${project.id}`}
-                                        className="flex items-center gap-2 text-xs text-[#A1A1A1] hover:text-white transition-colors border border-white/10 hover:border-white/30 rounded-full px-4 py-1.5"
+                                        className="text-xs font-mono text-text-secondary hover:text-text-primary uppercase tracking-widest transition-colors flex items-center gap-2 group/link"
                                     >
-                                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                                        </svg>
-                                        GitHub
+                                        <span className="w-0 overflow-hidden group-hover/link:w-3 border-t border-text-primary transition-all duration-300" />
+                                        Repository
                                     </a>
                                     {project.live && (
                                         <a
                                             href={project.live}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            id={`project-live-${project.id}`}
-                                            className="flex items-center gap-2 text-xs text-white font-medium rounded-full px-4 py-1.5 transition-all"
-                                            style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)' }}
+                                            className="text-xs font-mono text-text-secondary hover:text-accent-bronze uppercase tracking-widest transition-colors flex items-center gap-2 group/link"
                                         >
-                                            Visit ↗
+                                            <span className="w-0 overflow-hidden group-hover/link:w-3 border-t border-accent-bronze transition-all duration-300" />
+                                            Live Demo
                                         </a>
                                     )}
                                 </div>
                             </div>
                         </motion.article>
                     ))}
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </AnimatedSection>
     )
 }

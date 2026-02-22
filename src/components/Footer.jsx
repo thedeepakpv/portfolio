@@ -9,18 +9,18 @@ export default function Footer() {
     const year = new Date().getFullYear()
 
     return (
-        <footer className="border-t border-white/5 py-10 px-6">
+        <footer className="border-t border-white/5 py-10 px-6 snap-start">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                 {/* Left */}
                 <div className="flex flex-col items-center md:items-start gap-1">
-                    <span className="font-poppins font-bold text-white tracking-widest text-sm">DEEPAK P V</span>
-                    <p className="text-[#555] text-xs font-mono">
+                    <span className="font-heading font-bold text-text-primary tracking-widest text-sm">DEEPAK P V</span>
+                    <p className="text-text-secondary text-xs font-mono">
                         © {year} · Built with React + Vite
                     </p>
                 </div>
 
                 {/* Center gradient line for desktop */}
-                <div className="hidden md:block flex-1 mx-8 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <div className="hidden md:block flex-1 mx-8 h-px bg-gradient-to-r from-transparent via-divider to-transparent" />
 
                 {/* Right: social icons */}
                 <div className="flex items-center gap-3">
@@ -28,8 +28,8 @@ export default function Footer() {
                         href={GITHUB}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-white/30 text-[#A1A1A1] hover:text-white transition-all glass"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-divider hover:border-accent-bronze/50 text-text-secondary hover:text-text-primary transition-all glass"
                         title="GitHub"
                     >
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -40,8 +40,8 @@ export default function Footer() {
                         href={LINKEDIN}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-blue-500/40 text-[#A1A1A1] hover:text-blue-400 transition-all glass"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-divider hover:border-accent-indigo/50 text-text-secondary hover:text-accent-indigo transition-all glass"
                         title="LinkedIn"
                     >
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -50,8 +50,8 @@ export default function Footer() {
                     </motion.a>
                     <motion.a
                         href={`mailto:thedeepakpv10@gmail.com`}
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-purple-500/40 text-[#A1A1A1] hover:text-purple-400 transition-all glass"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-divider hover:border-accent-bronze/50 text-text-secondary hover:text-text-primary transition-all glass"
                         title="Email"
                     >
                         <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -62,8 +62,8 @@ export default function Footer() {
                         href={INSTAGRAM}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 hover:border-pink-500/40 text-[#A1A1A1] hover:text-pink-400 transition-all glass"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-divider hover:border-accent-sage/50 text-text-secondary hover:text-accent-sage transition-all glass"
                         title="Instagram"
                     >
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">

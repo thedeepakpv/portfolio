@@ -10,14 +10,14 @@ const containerVariants = {
 }
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function Hero() {
     const handleScroll = (e, href) => {
         e.preventDefault()
-        const lenis = window.__lenis
+        const lenis = globalThis.__lenis
         if (lenis) {
             lenis.scrollTo(href, { offset: -80, duration: 1.2 })
         } else {
@@ -28,70 +28,53 @@ export default function Hero() {
     return (
         <section
             id="home"
-            className="relative min-h-screen flex items-center justify-center text-center overflow-hidden"
+            className="relative min-h-screen flex items-center justify-center text-center overflow-hidden bg-radial-vignette snap-start"
         >
-            {/* Background glow orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-green-500/5 blur-3xl pointer-events-none" />
-
             <motion.div
-                className="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center gap-6"
+                className="relative z-10 max-w-4xl mx-auto px-6 flex flex-col items-center gap-8"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                {/* Eyebrow label */}
-                <motion.div variants={itemVariants}>
-                    <span className="inline-block px-4 py-1.5 text-xs font-mono text-blue-400 border border-blue-500/30 rounded-full bg-blue-500/5 tracking-widest uppercase">
-                        Available for opportunities
-                    </span>
-                </motion.div>
-
                 {/* Main heading */}
                 <motion.h1
                     variants={itemVariants}
-                    className="text-6xl md:text-8xl font-poppins font-extrabold leading-none tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold leading-tight tracking-tight text-text-primary"
                 >
-                    <span className="gradient-text">DEEPAK P V</span>
+                    Engineer the Mind.<br />
+                    Train the Body.
                 </motion.h1>
 
                 {/* Subtitle */}
-                <motion.p
-                    variants={itemVariants}
-                    className="text-lg md:text-xl text-[#A1A1A1] max-w-xl leading-relaxed font-light"
-                >
-                    I build{' '}
-                    <span className="text-white font-medium">scalable</span> and{' '}
-                    <span className="text-white font-medium">efficient</span> web systems.
-                    <br />
-                    <span className="text-sm text-[#666] mt-1 block font-mono">Code • Muscle • Meaning</span>
-                </motion.p>
+                <motion.div variants={itemVariants} className="flex flex-col items-center gap-4">
+                    <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed font-light">
+                        I build systems the way I train — <span className="text-text-primary font-medium">structured</span>, <span className="text-text-primary font-medium">intentional</span>, and <span className="text-text-primary font-medium">relentless</span>.
+                    </p>
+                    <span className="inline-block relative px-5 py-2 text-xs font-mono text-text-secondary tracking-widest uppercase border-l-2 border-accent-bronze">
+                        Discipline • Depth • Development
+                    </span>
+                </motion.div>
 
                 {/* CTA Buttons */}
-                <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-4 mt-2">
+                <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center gap-6 mt-6">
                     <motion.a
                         href="#projects"
                         onClick={(e) => handleScroll(e, '#projects')}
                         id="hero-view-work"
-                        className="relative px-8 py-3 rounded-full font-semibold text-sm text-white overflow-hidden group"
-                        style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6)' }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.97 }}
+                        className="relative px-8 py-3.5 font-sans font-semibold text-sm text-bg bg-text-primary border border-transparent transition-all duration-300 hover:bg-transparent hover:border-text-primary hover:text-text-primary"
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.98 }}
                     >
-                        <span className="relative z-10">View Work</span>
-                        <motion.span
-                            className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        />
+                        View Training Log
                     </motion.a>
 
                     <motion.a
                         href="#contact"
                         onClick={(e) => handleScroll(e, '#contact')}
                         id="hero-contact"
-                        className="px-8 py-3 rounded-full font-semibold text-sm text-white border border-white/15 hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.97 }}
+                        className="px-8 py-3.5 font-sans font-semibold text-sm text-text-primary border border-divider hover:border-accent-bronze hover:text-accent-bronze transition-all duration-300"
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.98 }}
                     >
                         Contact Me
                     </motion.a>
@@ -100,15 +83,13 @@ export default function Hero() {
                 {/* Scroll indicator */}
                 <motion.div
                     variants={itemVariants}
-                    className="mt-12 flex flex-col items-center gap-2 text-[#A1A1A1] cursor-pointer"
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    className="mt-16 flex flex-col items-center gap-3 text-text-secondary cursor-pointer"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                     onClick={(e) => handleScroll(e, '#about')}
                 >
-                    <span className="text-xs tracking-widest uppercase font-mono">Scroll</span>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M12 5v14M5 12l7 7 7-7" />
-                    </svg>
+                    <span className="text-[10px] tracking-[0.3em] uppercase font-mono">Scroll</span>
+                    <div className="w-[1px] h-12 bg-gradient-to-b from-text-secondary to-transparent" />
                 </motion.div>
             </motion.div>
         </section>

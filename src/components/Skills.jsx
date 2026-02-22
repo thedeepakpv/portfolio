@@ -1,101 +1,72 @@
-import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import React from 'react'
+import { motion } from 'framer-motion'
 import { skills } from '../data/projects'
+import AnimatedSection from './AnimatedSection'
 
-const colorStyles = {
-    blue: {
-        icon: 'text-blue-400',
-        glow: 'hover:shadow-blue-500/20',
-        border: 'hover:border-blue-500/30',
-        badge: 'bg-blue-500/10 text-blue-300 border-blue-500/20',
-        headerBg: 'from-blue-500/15 to-blue-500/5',
-    },
-    purple: {
-        icon: 'text-purple-400',
-        glow: 'hover:shadow-purple-500/20',
-        border: 'hover:border-purple-500/30',
-        badge: 'bg-purple-500/10 text-purple-300 border-purple-500/20',
-        headerBg: 'from-purple-500/15 to-purple-500/5',
-    },
-    green: {
-        icon: 'text-green-400',
-        glow: 'hover:shadow-green-500/20',
-        border: 'hover:border-green-500/30',
-        badge: 'bg-green-500/10 text-green-300 border-green-500/20',
-        headerBg: 'from-green-500/15 to-green-500/5',
-    },
+const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function Skills() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: '-100px' })
-
     return (
-        <section id="skills" ref={ref} className="section-padding">
-            <div className="max-w-6xl mx-auto px-6">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5 }}
-                    className="flex items-center gap-3 mb-12"
-                >
-                    <span className="text-xs font-mono text-[#A1A1A1] tracking-widest uppercase">04 —</span>
-                    <h2 className="text-3xl md:text-4xl font-poppins font-bold text-white">Technology</h2>
-                </motion.div>
-
-                {/* Skill Cards */}
-                <div className="grid md:grid-cols-3 gap-6">
-                    {skills.map((skill, i) => {
-                        const styles = colorStyles[skill.color]
-                        return (
-                            <motion.div
-                                key={skill.id}
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.6, delay: i * 0.15, ease: 'easeOut' }}
-                                whileHover={{ scale: 1.03, y: -4 }}
-                                className={`glass rounded-2xl overflow-hidden border border-white/5 ${styles.border} transition-all duration-300 hover:shadow-lg ${styles.glow} group`}
-                            >
-                                {/* Card header */}
-                                <div className={`bg-gradient-to-br ${styles.headerBg} p-6 border-b border-white/5`}>
-                                    <div className="flex items-center gap-3">
-                                        <span className={`text-3xl ${styles.icon}`}>{skill.icon}</span>
-                                        <h3 className="font-poppins font-bold text-white text-sm leading-tight">
-                                            {skill.category}
-                                        </h3>
-                                    </div>
-                                </div>
-
-                                {/* Skill tags */}
-                                <div className="p-6">
-                                    <div className="flex flex-wrap gap-2">
-                                        {skill.items.map((item) => (
-                                            <motion.span
-                                                key={item}
-                                                whileHover={{ scale: 1.08 }}
-                                                className={`text-xs px-3 py-1.5 rounded-full border font-mono cursor-default ${styles.badge}`}
-                                            >
-                                                {item}
-                                            </motion.span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )
-                    })}
+        <AnimatedSection id="skills" className="py-24 md:py-32">
+            <div className="max-w-5xl mx-auto px-6">
+                {/* Section Header */}
+                <div className="flex items-end gap-6 mb-16 border-b border-divider pb-6">
+                    <span className="text-sm font-mono text-text-secondary tracking-widest uppercase">02 /</span>
+                    <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-text-primary tracking-tight">Strength Types</h2>
                 </div>
 
-                {/* Bottom note */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ delay: 0.6 }}
-                    className="text-center text-[#555] text-xs font-mono mt-10 tracking-wide"
+                {/* Skill Blocks */}
+                <motion.div 
+                    className="grid md:grid-cols-3 gap-8"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+                    }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-10%" }}
                 >
-                    Always learning. Always building.
-                </motion.p>
+                    {skills.map((skill) => (
+                        <motion.div
+                            key={skill.id}
+                            variants={itemVariants}
+                            className="flex flex-col border border-divider bg-card/10 hover:bg-card/30 transition-colors duration-500 rounded-sm"
+                        >
+                            {/* Card Header */}
+                            <div className="p-6 pb-4 border-b border-divider/50">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-2xl grayscale opacity-80">{skill.icon}</span>
+                                    <h3 className="font-heading font-bold text-text-primary text-base uppercase tracking-wider">
+                                        {skill.category}
+                                    </h3>
+                                </div>
+                            </div>
+
+                            {/* Skills List */}
+                            <div className="p-6 pt-4 flex-1">
+                                <ul className="flex flex-col gap-3">
+                                    {skill.items.map((item) => (
+                                        <li key={item} className="flex items-center gap-3 text-text-secondary text-sm font-sans group">
+                                            <span className="w-1.5 h-1.5 bg-accent-bronze/50 group-hover:bg-accent-bronze transition-colors flex-shrink-0" />
+                                            <span className="group-hover:text-text-primary transition-colors duration-300">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+
+                {/* Bottom note */}
+                <div className="mt-16 text-center border-t border-divider pt-8">
+                    <p className="text-text-secondary text-xs font-mono tracking-widest uppercase">
+                        Strength is Structured.
+                    </p>
+                </div>
             </div>
-        </section>
+        </AnimatedSection>
     )
 }

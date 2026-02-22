@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Lenis from '@studio-freight/lenis'
+import Lenis from 'lenis'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -11,14 +11,15 @@ import Footer from './components/Footer'
 export default function App() {
     useEffect(() => {
         const lenis = new Lenis({
-            lerp: 0.08,           // smoothness factor (0–1, lower = smoother)
+            lerp: 0.1,            // Smoothness factor
             wheelMultiplier: 1,
-            touchMultiplier: 1.5,
+            touchMultiplier: 1.2,
             infinite: false,
+            autoResize: true,
         })
 
-        // Expose lenis globally so Navbar can use lenis.scrollTo()
-        window.__lenis = lenis
+        // Expose lenis globally for navigation
+        globalThis.__lenis = lenis
 
         let rafId
         function raf(time) {
@@ -27,10 +28,49 @@ export default function App() {
         }
         rafId = requestAnimationFrame(raf)
 
+        // --- Custom Scroll Snap Implementation ---
+        let isMoving = false
+        let snapTimeout = null
+
+        const handleSnap = () => {
+            if (isMoving) return
+
+            const sections = document.querySelectorAll('section, footer')
+            let closestSection = null
+            let minDistance = Infinity
+
+            sections.forEach((section) => {
+                const rect = section.getBoundingClientRect()
+                const distance = Math.abs(rect.top)
+                if (distance < minDistance) {
+                    minDistance = distance
+                    closestSection = section
+                }
+            })
+
+            if (closestSection && minDistance < window.innerHeight / 3) {
+                lenis.scrollTo(closestSection, {
+                    offset: 0,
+                    duration: 0.8,
+                    easing: (t) => Math.min(1, 1.001 * t * (2 - t)), // Custom ease
+                })
+            }
+        }
+
+        lenis.on('scroll', () => {
+            isMoving = true
+            clearTimeout(snapTimeout)
+            snapTimeout = setTimeout(() => {
+                isMoving = false
+                handleSnap()
+            }, 150) // Debounce snap to wait for scroll end
+        })
+
         return () => {
             cancelAnimationFrame(rafId)
             lenis.destroy()
-            window.__lenis = null
+            globalThis.__lenis = null
+            clearTimeout(snapTimeout)
         }
     }, [])
 

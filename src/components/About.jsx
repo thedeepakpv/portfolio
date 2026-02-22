@@ -1,119 +1,93 @@
-import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import React from 'react'
+import { motion } from 'framer-motion'
+import AnimatedSection from './AnimatedSection'
 
-const bullets = [
-    { icon: '💻', text: 'Computer Science student with a hands-on approach to learning and building.' },
-    { icon: '💪', text: 'Fitness enthusiast driven by discipline, consistency, and continuous improvement.' },
-    { icon: '🎯', text: 'Values clarity, growth, and purposeful living — in code and in life.' },
-]
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+}
 
 export default function About() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: '-100px' })
-
     return (
-        <section id="about" ref={ref} className="section-padding">
-            <div className="max-w-6xl mx-auto px-6">
-                {/* Section label */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5 }}
-                    className="flex items-center gap-3 mb-12"
-                >
-                    <span className="text-xs font-mono text-[#A1A1A1] tracking-widest uppercase">02 —</span>
-                    <h2 className="text-3xl md:text-4xl font-poppins font-bold text-white">About</h2>
-                </motion.div>
+        <AnimatedSection id="about" className="py-24 md:py-32 bg-card/20">
+            <div className="max-w-5xl mx-auto px-6">
+                {/* Section Header */}
+                <div className="flex items-end gap-6 mb-16 border-b border-divider pb-6">
+                    <span className="text-sm font-mono text-text-secondary tracking-widest uppercase">01 /</span>
+                    <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-text-primary tracking-tight">Identity</h2>
+                </div>
 
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    {/* Left: Avatar */}
+                <div className="grid md:grid-cols-12 gap-16 md:gap-24 items-start">
+                    {/* Left: Avatar & Title */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.7, ease: 'easeOut' }}
-                        className="flex justify-center"
+                        className="md:col-span-5 flex flex-col gap-6"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+                        }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-10%" }}
                     >
-                        <div className="relative">
-                            {/* Outer glow ring */}
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-green-500 blur-xl opacity-30 scale-110" />
-                            {/* Avatar circle */}
-                            <div className="relative w-56 h-56 md:w-72 md:h-72 rounded-full glass flex items-center justify-center gradient-border overflow-hidden">
-                                <div
-                                    className="absolute inset-0 rounded-full"
-                                    style={{
-                                        background: 'linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 50%, rgba(16,185,129,0.15) 100%)',
-                                    }}
-                                />
-                                <img
-                                    src="/profile.jpg"
-                                    alt="Deepak P V"
-                                    className="absolute inset-0 w-full h-full object-cover object-top rounded-full z-10"
-                                />
-                            </div>
-                            {/* Floating badges */}
-                            <motion.div
-                                animate={{ y: [-4, 4, -4] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                                className="absolute -top-3 -right-3 glass px-3 py-1.5 rounded-full text-xs font-mono text-blue-400 border border-blue-500/20"
-                            >
-                                CS Student
-                            </motion.div>
-                            <motion.div
-                                animate={{ y: [4, -4, 4] }}
-                                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                                className="absolute -bottom-3 -left-3 glass px-3 py-1.5 rounded-full text-xs font-mono text-green-400 border border-green-500/20"
-                            >
-                                Builder
-                            </motion.div>
-                        </div>
+                        <motion.div variants={itemVariants} className="relative w-full aspect-square rounded-sm overflow-hidden border border-divider">
+                            <img
+                                src="/profile.jpg"
+                                alt="Deepak P V"
+                                className="absolute inset-0 w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
+                            />
+                            {/* Overlay */}
+                            <div className="absolute inset-0 bg-bg/20 mix-blend-multiply pointer-events-none" />
+                        </motion.div>
+                        <motion.div variants={itemVariants} className="flex flex-col gap-2 border-l border-accent-bronze pl-4">
+                            <h3 className="text-xl font-heading font-bold text-text-primary">Deepak P V</h3>
+                            <p className="text-sm font-mono text-text-secondary uppercase tracking-widest">
+                                Kannur, Kerala
+                            </p>
+                        </motion.div>
                     </motion.div>
 
-                    {/* Right: Text */}
+                    {/* Right: Text Content */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-                        className="space-y-6"
+                        className="md:col-span-7 space-y-12"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.2 } }
+                        }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-10%" }}
                     >
-                        <p className="text-[#A1A1A1] text-lg leading-relaxed">
-                            Hey — I'm <span className="text-white font-semibold">Deepak P V</span>, a CS undergrad
-                            from Kannur, Kerala. I'm obsessed with building things that matter —
-                            whether it's a mobile app, a backend system, or a clean UI.
-                        </p>
+                        {/* Statement */}
+                        <motion.div variants={itemVariants} className="relative">
+                            <blockquote className="text-xl md:text-2xl font-light text-text-primary leading-relaxed">
+                                "I am a CS undergrad obsessed with building things that matter. I approach software the way I approach fitness—with <span className="font-semibold">discipline</span>, <span className="font-semibold">consistency</span>, and <span className="font-semibold">purpose</span>."
+                            </blockquote>
+                        </motion.div>
 
-                        <div className="space-y-4 mt-4">
-                            {bullets.map(({ icon, text }, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ duration: 0.5, delay: 0.3 + i * 0.12 }}
-                                    className="flex items-start gap-4 glass rounded-xl p-4 border border-white/5 hover:border-white/10 transition-colors"
-                                >
-                                    <span className="text-2xl flex-shrink-0">{icon}</span>
-                                    <p className="text-[#A1A1A1] text-sm leading-relaxed">{text}</p>
-                                </motion.div>
-                            ))}
-                        </div>
+                        <motion.div variants={itemVariants} className="space-y-6 text-text-secondary text-base md:text-lg font-sans leading-loose border-l border-divider pl-6">
+                            <p>
+                                I don't just write code; I design systems. Whether it's a mobile app, a complex backend API, or a clean user interface, I believe in creating architecture that is as robust as it is elegant.
+                            </p>
+                            <p>
+                                My journey is driven by a genuine curiosity about how things work. 
+                                Beyond syntax and frameworks, I look for the underlying principles—applying philosophical depth to engineering problems and maintaining physical rigor to ensure mental clarity.
+                            </p>
+                        </motion.div>
 
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={isInView ? { opacity: 1 } : {}}
-                            transition={{ delay: 0.7 }}
-                            className="flex flex-wrap gap-3 pt-2"
-                        >
-                            {['Kannur, Kerala', 'Open to Work', 'CS Student'].map((tag) => (
-                                <span
-                                    key={tag}
-                                    className="text-xs px-3 py-1 rounded-full border border-white/10 text-[#A1A1A1] font-mono"
-                                >
-                                    {tag}
-                                </span>
-                            ))}
+                        {/* Principles */}
+                        <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-divider">
+                            <div>
+                                <span className="block text-xs font-mono text-text-secondary uppercase tracking-wider mb-2">Approach</span>
+                                <p className="text-text-primary font-medium text-sm">Pragmatic. Focused. Scalable.</p>
+                            </div>
+                            <div>
+                                <span className="block text-xs font-mono text-text-secondary uppercase tracking-wider mb-2">Driven By</span>
+                                <p className="text-text-primary font-medium text-sm">Clarity, growth, and purposeful living.</p>
+                            </div>
                         </motion.div>
                     </motion.div>
                 </div>
             </div>
-        </section>
+        </AnimatedSection>
     )
 }

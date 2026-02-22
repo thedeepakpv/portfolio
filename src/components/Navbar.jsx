@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
@@ -41,7 +41,7 @@ export default function Navbar() {
     const handleClick = (e, href) => {
         e.preventDefault()
         setMenuOpen(false)
-        const lenis = window.__lenis
+        const lenis = globalThis.__lenis
         if (lenis) {
             lenis.scrollTo(href, { offset: -80, duration: 1.2 })
         } else {
@@ -55,7 +55,7 @@ export default function Navbar() {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0A0A0A]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-bg/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
                 }`}
         >
             <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -63,7 +63,7 @@ export default function Navbar() {
                 <motion.a
                     href="#home"
                     onClick={(e) => handleClick(e, '#home')}
-                    className="text-xl font-poppins font-bold gradient-text tracking-widest cursor-pointer"
+                    className="text-xl font-heading font-bold text-text-primary tracking-widest cursor-pointer"
                     whileHover={{ scale: 1.05 }}
                 >
                     DEEPAK
@@ -86,7 +86,7 @@ export default function Navbar() {
                                     {isActive && (
                                         <motion.span
                                             layoutId="activeLink"
-                                            className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-blue-500 to-purple-500"
+                                            className="absolute -bottom-1 left-0 right-0 h-px bg-accent-bronze"
                                         />
                                     )}
                                 </a>
@@ -115,7 +115,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-[#0A0A0A]/95 backdrop-blur-xl border-t border-white/5"
+                        className="md:hidden bg-bg/95 backdrop-blur-xl border-t border-white/5"
                     >
                         <ul className="flex flex-col py-4 px-6 gap-4">
                             {navLinks.map(({ label, href }) => (
